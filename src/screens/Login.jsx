@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 import Button from "../components/Button";
 import { ScreenContainer } from "react-native-screens";
 
+{/**VER QUESTAO DO INPUTBOX E TEXTINPUT */}
+
 const BLUE = "#0045C4";
 
 export default function Login(){
