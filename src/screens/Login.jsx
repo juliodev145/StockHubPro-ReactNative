@@ -1,103 +1,67 @@
-import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import ScreenContainer from "../components/ScreenContainer";
+import InputBox from "../components/InputBox";
 import Button from "../components/Button";
-import { ScreenContainer } from "react-native-screens";
-
-{/**VER QUESTAO DO INPUTBOX E TEXTINPUT */}
 
 const BLUE = "#0045C4";
 
-export default function Login(){
+export default function Login({navigation}) {
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
 
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [mostrarSenha, setMostrarSenha] = useState(false);
+    function handleLogin() {
+        // Depois: enviar para a API (JWT)
+        console.log("Login:", email);
+        navigation.reset({index: 0, routes: [{name: "App"}]}); //limpa a pilha e vai para a tela de abas
+    }
 
     return (
-        <ScreenContainer style={styles.container}> 
-
+        <ScreenContainer style={styles.container}>
             <Text style={styles.title}>
                 Bem-vindo ao <Text style={styles.brand}>StockHub Pro</Text>
             </Text>
+            <Text style={styles.subtitle}>Entre para fazer a gestão do seu estoque.</Text>
 
-            <Text style={styles.subtitle}>
-                Entre para fazer a gestão do seu estoque.
-            </Text>
+            <InputBox
+                placeholder="E-mail"
+                icon="person-outline"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={setEmail}
+            />
 
-            <View style={styles.inputBox}> 
-                <Feather name="user" size={20} color="#000"/>
-                <TextInput
-                    placeholder="E-mail"
-                    placeholderTextColor="#999"
-                    value={email}
-                    onChangeText={setEmail}
-                />
-            </View>
+            <InputBox
+                placeholder="Senha"
+                icon="lock-closed-outline"
+                isPassword
+                value={senha}
+                onChangeText={setSenha}
+            />
 
-            <View style={styles.inputBox}>
-                <Feather name="lock" size={20} color="#000"/>
-                <TextInput style={styles.input}
-                    placeholder="Senha"
-                    placeholderTextColor="#999"
-                    value={senha}
-                    onChangeText={setSenha}       
-                    secureTextEntry={!mostrarSenha}
-                />
-                <TouchableOpacity onPress={()=>setMostrarSenha(!mostrarSenha)}>
-                    <Feather name={mostrarSenha ? 'eye' : 'eye-off'} size={22} color={"#000"}/>
-                </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity>
-                <Text style={styles.link}>Esqueci minha senha</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("ForgotPass")}>
+                <Text style={[styles.link, styles.forgot]}>Esqueci minha senha</Text>
             </TouchableOpacity>
 
-            <Button title="Entrar"/>
-            <Button title="Criar conta" variant="outline"/>
+            <Button title="Entrar" onPress={handleLogin} />
+            <Button title="Criar conta" variant="outline" onPress={() => navigation.navigate("Register")}/>
 
-            <TouchableOpacity style={styles.footer}>
+            <TouchableOpacity style={styles.footer} onPress={() => navigation.navigate("AboutUs")}>
                 <Text style={styles.link}>Quem somos - Suporte</Text>
             </TouchableOpacity>
-
         </ScreenContainer>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems: 'center',
-        marginTop:140,
+    container: { alignItems: "center", justifyContent: "center" },
+    title: { fontSize: 22, color: "#000", textAlign: "center" },
+    brand: { color: BLUE, fontWeight: "bold" },
+    subtitle: {
+        fontSize: 13, color: "#333", textAlign: "center",
+        marginTop: 20, marginBottom: 18,
     },
-    title:{
-        fontSize:22,
-        color:"#000",
-        textAlign:'center'
-    },
-    brand:{
-        color:BLUE,
-        fontWeight: "600",
-    },
-    subtitle:{
-        fontSize:14, 
-        color: "#333",
-        marginTop:20,
-        marginBottom:28,
-        textAlign:'center',
-    },
-    inputBox:{
-        width: '85%', 
-        flexDirection: 'row', 
-        alignItems: 'center',
-        borderWidth: 2, 
-        borderColor: BLUE, 
-        borderRadius: 10,
-        paddingHorizontal: 12, 
-        height: 50, 
-        marginBottom: 12,       
-    },
-    input:{flex:1, marginLeft:10, fontSize:14},
-    link: {color:BLUE, textDecorationLine:'underline', fontSize:12, marginBottom:28},
-    footer:{marginTop:28},
-})
+    link: { color: BLUE, textDecorationLine: "underline", fontSize: 12 },
+    forgot: { marginTop: 14, marginBottom: 28 },
+    footer: { marginTop: 28 },
+});

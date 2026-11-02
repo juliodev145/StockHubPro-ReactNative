@@ -8,20 +8,20 @@ import Button from "../components/Button";
 
 const BLUE = "#0045C4";
 
-export default function ForgotPass(){
+export default function ForgotPass({navigation}){
     const [email, setEmail] = useState("");
 
-    /**
-     *  function handleContinue() {
+    function handleContinue() {
         // Depois enviaremos o e-mail para a API
         console.log("E-mail digitado:", email);
+        navigation.navigate("ResetPass");
     }
-     */
+     
 
     return(
         <ScreenContainer header={<Header subtitle="A gestão do seu estoque" />}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TouchableOpacity style={styles.back}>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                     <Feather name="arrow-left" size={24} color="#000"/>
                 </TouchableOpacity> 
 
@@ -37,7 +37,7 @@ export default function ForgotPass(){
                 />
 
                 <View style={styles.button}>
-                <Button title="Continuar" />   {/**onPress={handleContinue} */}    
+                <Button title="Continuar" onPress={handleContinue}/>
                 </View>
                 
 

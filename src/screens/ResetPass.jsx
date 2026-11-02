@@ -8,19 +8,17 @@ import Button from "../components/Button";
 
 const BLUE = "#0045C4"
 
-export default function ResetPass(){
+export default function ResetPass({navigation}){
 
     //declaracao de uma variavel de estado
     const [code, setCode] = useState("");
     const [senha, setSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
 
-    /** 
-     *   function handleReset() {
+     function handleReset() {
         // Depois: validar e enviar para a API
         console.log("Código:", code, "Senhas iguais?", senha === confirmarSenha);
     }
-     */
 
     //Dentro do return (no meio das tags) → {/* comentário */}
     //Fora do return (no JavaScript normal) → // comentário ou /* comentário */
@@ -28,7 +26,7 @@ export default function ResetPass(){
     return(
         <ScreenContainer header={<Header subtitle="A gestão do seu estoque"/>}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TouchableOpacity style={styles.back}>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                     <Feather name="arrow-left" size={24} color="#000"/>
                 </TouchableOpacity>
 
@@ -58,7 +56,7 @@ export default function ResetPass(){
                 />
                 <View style={styles.buttonArea}>
                     <Button title="Redefinir"/>
-                    <Button title="Fazer login" variant="outline"/>
+                    <Button title="Fazer login" variant="outline" onPress={() => navigation.navigate("Login")}/>
                 </View>
 
             </ScrollView>

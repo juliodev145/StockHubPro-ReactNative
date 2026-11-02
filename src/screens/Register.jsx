@@ -8,7 +8,7 @@ import Button from "../components/Button";
 
 const BLUE = "#0045C4";
 
-export default function Register(){
+export default function Register({navigation}){
     
     const [form, setForm] = useState({
         nome: "",
@@ -27,23 +27,25 @@ export default function Register(){
     const [loadingCep, setLoadingCep] = useState(false);
     const [cepErro, setCepErro] = useState("");
 
+    //função para atualizar os campos do formulário
     function updateField(campo, valor){
         setForm((prev) => ({...prev, [campo] : valor})) //
     }
 
     function handleCep(valor){
         updateField("cep", valor);
-        const cepLimpo = valor.replace(/\D/g, "");
+        const cepLimpo = valor.replace(/\D/g, "");  //remove tudo que não for número
         if(cepLimpo.length ===8){
             buscarCep(cepLimpo);
         }
     }
 
+    //toda função que faz requisição tem que ser async. Toda função que usa await tem que ser async
     async function buscarCep(cep){
         setLoadingCep(true);
         setCepErro("");
-        try{
-            const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        try{    //tente 
+            const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);  //fetch é uma função que faz a requisição.
             const dados = await resposta.json();
 
             if(dados.erro){
@@ -56,11 +58,11 @@ export default function Register(){
                 logradouro: dados.logradouro,
                 bairro: dados.bairro,
                 cidade: dados.localidade,
-                estado: dados.estado ?? dados.uf,
+                estado: dados.estado ?? dados.uf,   //senão vier nada, traz a UF.
             }));
-        } catch{
+        } catch{    //se der erro, mostre uma mensagem amigável.
             setCepErro("Não foi possível buscar o CEP. Verifique sua conexão.");
-        } finally {
+        } finally {     //sempre executa, mesmo que dê erro ou não.
             setLoadingCep(false);
         }
     }
@@ -73,14 +75,14 @@ export default function Register(){
     return(
         <ScreenContainer header = {<Header subtitle="A gestão do seu estoque"/>}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TouchableOpacity style={styles.back}>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                     <Feather name="arrow-left" size={24} color="#000"/>
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Crie sua conta</Text>
 
                 <InputBox placeholder="Nome" value={form.nome}
-                    onChangeText={(v) => updateField("nome", v)}/>
+                    onChangeText={(v) => updateField("nome", v)}/>  {/** updateField - atualizar os campos do formulário*/}
 
                 <InputBox placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
                     value={form.email} onChangeText={(v) => updateField("email", v)} />
@@ -99,7 +101,8 @@ export default function Register(){
 
                 <InputBox placeholder="CEP" keyboardType="numeric" value={form.cep}
                     onChangeText={handleCep} />
-                {loadingCep && <ActivityIndicator color={BLUE} style={styles.loading} />}
+
+                {loadingCep && <ActivityIndicator color={BLUE} style={styles.loading} />}   {/** "Bolinha de carregamento" */}
                 {cepErro !== "" && <Text style={styles.error}>{cepErro}</Text>}
 
                 <InputBox placeholder="Logradouro" value={form.logradouro}
@@ -119,7 +122,7 @@ export default function Register(){
 
                 <View style={styles.buttonArea}>
                     <Button title="Cadastrar" onPress={handleRegister} />
-                    <Button title="Fazer login" variant="outline" />
+                    <Button title="Fazer login" variant="outline" onPress={() => navigation.navigate("Login")}/>
                 </View>
 
             </ScrollView>

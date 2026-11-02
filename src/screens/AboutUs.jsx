@@ -5,11 +5,11 @@ import { Feather } from "@expo/vector-icons";
 
 const BLUE = "#0045C4";
 
-export default function AboutUs(){
+export default function AboutUs({navigation}){
     return(
         <ScreenContainer header={<Header subtitle="A gestão do seu estoque" />}>
             <ScrollView showsVerticalScrollIndicator={false}>   {/**esconde a barra lateral de rolagem */}
-                <TouchableOpacity style={styles.back}>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                     <Feather name="arrow-left" size={24} color="#000"/>
                 </TouchableOpacity>
 
