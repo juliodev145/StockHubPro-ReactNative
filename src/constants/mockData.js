@@ -1,5 +1,4 @@
 // Dados de exemplo — depois virão da API
-// Para o relatório
 export const MOCK_COMPANY = {
     nome: "Mercadinho Exemplo",
     cnpj: "12.345.678/0001-90",
@@ -22,3 +21,8 @@ export const MOCK_PRODUCTS = [
 ];
 
 export const MOCK_SUMMARY = { entradas: 450, saidas: 215 };
+
+export const MOCK_USER = {
+    nome: "Julio Cardoso",
+    email: "julio@email.com",
+};

@@ -8,6 +8,8 @@ import ResetPass from "../screens/ResetPass";
 import AboutUs from "../screens/AboutUs";
 import AppTabs from "./AppTabs"; 
 import Report from "../screens/Report";
+import Profile from "../screens/Profile";
+import Stock from "../screens/Stock";
 
 const Stack = createNativeStackNavigator(); 
 
@@ -21,6 +23,8 @@ export default function AuthRoutes(){
             <Stack.Screen name="AboutUs" component={AboutUs}/>
             <Stack.Screen name="App" component={AppTabs}/>
             <Stack.Screen name="Report" component={Report} />
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Stock" component={Stock} />
         </Stack.Navigator>
     )
 }
